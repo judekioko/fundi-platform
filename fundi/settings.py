@@ -10,22 +10,30 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7t0b0gi1!qcxdkf3=h$6#xxisj%#qz2!^6lpka789w!_-k%29f'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'django-insecure-7t0b0gi1!qcxdkf3=h$6#xxisj%#qz2!^6lpka789w!_-k%29f',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}']
 
 
 # Application definition
@@ -43,6 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,10 +84,10 @@ WSGI_APPLICATION = 'fundi.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600,
+    )
 }
 
 
@@ -118,6 +127,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'assets']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STORAGES = {
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -125,4 +140,4 @@ LOGIN_URL = 'providers:login'
 LOGIN_REDIRECT_URL = 'providers:dashboard'
 LOGOUT_REDIRECT_URL = 'core:landing'
 
-WHATSAPP_NUMBER = '254113781366'
+WHATSAPP_NUMBER = os.environ.get('WHATSAPP_NUMBER', '254113781366')
