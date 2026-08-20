@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Join as a professional — Fundi{% endblock %}
+
+{% block content %}
+<section class="request">
+  <div class="wrap request-inner">
+    <div class="request-intro">
+      <h2>Join the Fundi network</h2>
+      <p>Register your details below. Your profile is reviewed before you go live — once approved, you'll see job requests that match your category and can claim the ones you want.</p>
+    </div>
+
+    <form method="post" class="request-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<p class="form-note">{{ field.help_text }}</p>{% endif %}
+          {{ field.errors }}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
+      <p class="form-note">Already registered? <a href="{% url 'providers:login' %}">Log in</a></p>
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -108,6 +108,16 @@ a { color: inherit; }
   font-size: .95rem;
 }
 .main-nav a:hover { color: var(--primary); }
+.logout-form { display: inline; margin: 0; }
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.link-button:hover { color: var(--primary); }
 
 /* Hero */
 .hero {
@@ -295,6 +305,56 @@ textarea { resize: vertical; }
   color: var(--ink-soft);
   margin: 0;
 }
+
+/* Messages */
+.messages { padding-top: 18px; }
+.message {
+  padding: .8em 1.1em;
+  border-radius: 10px;
+  font-size: .92rem;
+  font-weight: 500;
+}
+.message-success { background: #e7f5ee; color: var(--primary-dark); }
+.message-error { background: #fdeceb; color: #b23a2e; }
+
+/* Thanks page */
+.thanks-inner { max-width: 560px; text-align: center; margin: 0 auto; }
+.thanks-inner .btn { margin: 18px 0; }
+
+/* Dashboard */
+.dashboard { padding: 56px 0 88px; }
+.dashboard h3 { margin-top: 40px; font-size: 1.2rem; }
+.status-pill {
+  display: inline-block;
+  padding: .5em 1em;
+  border-radius: 999px;
+  font-size: .88rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.status-pending { background: var(--accent-soft); color: var(--accent); }
+.status-approved { background: #e7f5ee; color: var(--primary-dark); }
+
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.job-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.job-card-title { font-weight: 700; font-family: 'Sora', sans-serif; margin: 0 0 4px; }
+.job-card-desc { color: var(--ink-soft); margin: 0 0 4px; font-size: .92rem; }
+.job-card-meta { color: var(--ink-soft); margin: 0; font-size: .82rem; }
 
 /* Pros CTA */
 .pros { padding: 64px 0 88px; text-align: center; }

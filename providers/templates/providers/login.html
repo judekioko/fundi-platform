@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Log in — Fundi{% endblock %}
+
+{% block content %}
+<section class="request">
+  <div class="wrap request-inner" style="grid-template-columns: 1fr;">
+    <div class="request-intro">
+      <h2>Log in</h2>
+      <p>For registered Fundi professionals.</p>
+    </div>
+
+    <form method="post" class="request-form" style="max-width: 420px;">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {{ field.errors }}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Log in</button>
+      <p class="form-note">New here? <a href="{% url 'providers:register' %}">Register as a professional</a></p>
+    </form>
+  </div>
+</section>
+{% endblock %}

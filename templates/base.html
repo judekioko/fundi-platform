@@ -1,0 +1,58 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Fundi — Tell us the problem. We'll find the right person.{% endblock %}</title>
+<meta name="description" content="Describe your problem, get matched with a vetted local professional. Electrical, plumbing, CCTV, Wi-Fi, AC, appliances, carpentry, painting, cleaning and more.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔧</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="{% url 'core:landing' %}#top" class="logo">Fundi<span class="dot">.</span></a>
+    <nav class="main-nav">
+      <a href="{% url 'core:landing' %}#how-it-works">How it works</a>
+      <a href="{% url 'core:landing' %}#categories">Services</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'providers:dashboard' %}">Dashboard</a>
+        <form method="post" action="{% url 'providers:logout' %}" class="logout-form">
+          {% csrf_token %}
+          <button type="submit" class="link-button">Log out</button>
+        </form>
+      {% else %}
+        <a href="{% url 'providers:register' %}">For professionals</a>
+        <a href="{% url 'providers:login' %}">Log in</a>
+      {% endif %}
+    </nav>
+    <a href="{% url 'core:landing' %}#request" class="btn btn-primary btn-sm">Get help now</a>
+  </div>
+</header>
+
+{% if messages %}
+<div class="wrap messages">
+  {% for message in messages %}
+    <p class="message message-{{ message.tags }}">{{ message }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main id="top">
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>Fundi &middot; Nairobi, Kenya</p>
+    <p class="footer-muted">Problem in, right person out.</p>
+  </div>
+</footer>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

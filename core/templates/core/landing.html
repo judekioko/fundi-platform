@@ -1,31 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fundi — Tell us the problem. We'll find the right person.</title>
-<meta name="description" content="Describe your problem, get matched with a vetted local professional. Electrical, plumbing, CCTV, Wi-Fi, AC, appliances, carpentry, painting, cleaning and more.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔧</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
+{% extends "base.html" %}
 
-<header class="site-header">
-  <div class="wrap header-inner">
-    <a href="#top" class="logo">Fundi<span class="dot">.</span></a>
-    <nav class="main-nav">
-      <a href="#how-it-works">How it works</a>
-      <a href="#categories">Services</a>
-      <a href="#pros">For professionals</a>
-    </nav>
-    <a href="#request" class="btn btn-primary btn-sm">Get help now</a>
-  </div>
-</header>
-
-<main id="top">
+{% block content %}
 
   <section class="hero">
     <div class="wrap hero-inner">
@@ -90,7 +65,7 @@
     <div class="wrap trust-inner">
       <div class="trust-copy">
         <h2>Every Fundi is vetted before we recommend them</h2>
-        <p>We don't let anyone list themselves. Each professional is personally checked before they enter our network, and every completed job feeds into their track record — jobs done, response time, repeat customers.</p>
+        <p>We don't let anyone list themselves. Each professional is personally approved before they enter our network, and every completed job feeds into their track record — jobs done, response time, repeat customers.</p>
       </div>
       <div class="trust-card">
         <p class="trust-name">John — Electrician</p>
@@ -108,62 +83,51 @@
     <div class="wrap request-inner">
       <div class="request-intro">
         <h2>Describe your problem</h2>
-        <p>Fill this in and we'll open WhatsApp with your details ready to send. A real person reviews every request and matches you with the right Fundi.</p>
+        <p>Fill this in and a real person reviews every request and matches you with the right Fundi. You'll also get a WhatsApp link to send it straight to us.</p>
       </div>
 
-      <form id="request-form" class="request-form" novalidate>
+      <form method="post" class="request-form">
+        {% csrf_token %}
         <div class="field">
-          <label for="category">What kind of problem is it?</label>
-          <select id="category" name="category" required>
-            <option value="" disabled selected>Select a category</option>
-            <option value="Electrical">Electrical</option>
-            <option value="Plumbing">Plumbing</option>
-            <option value="CCTV & Security">CCTV &amp; Security</option>
-            <option value="Internet & Wi-Fi">Internet &amp; Wi-Fi</option>
-            <option value="Air Conditioning">Air Conditioning</option>
-            <option value="Appliances">Appliances</option>
-            <option value="Carpentry">Carpentry</option>
-            <option value="Painting">Painting</option>
-            <option value="Cleaning">Cleaning</option>
-            <option value="General Repairs">General Repairs</option>
-            <option value="Not sure">Not sure — let us figure it out</option>
-          </select>
+          <label for="{{ form.category.id_for_label }}">What kind of problem is it?</label>
+          {{ form.category }}
+          {{ form.category.errors }}
         </div>
 
         <div class="field">
-          <label for="description">What's going on?</label>
-          <textarea id="description" name="description" rows="4" placeholder="e.g. My business Wi-Fi keeps disconnecting every afternoon around 2-4pm." required></textarea>
+          <label for="{{ form.description.id_for_label }}">What's going on?</label>
+          {{ form.description }}
+          {{ form.description.errors }}
         </div>
 
         <div class="field-row">
           <div class="field">
-            <label for="location">Area / location</label>
-            <input type="text" id="location" name="location" placeholder="e.g. Kilimani, Nairobi" required>
+            <label for="{{ form.location.id_for_label }}">Area / location</label>
+            {{ form.location }}
+            {{ form.location.errors }}
           </div>
           <div class="field">
-            <label for="urgency">How urgent?</label>
-            <select id="urgency" name="urgency" required>
-              <option value="ASAP" selected>As soon as possible</option>
-              <option value="Today">Today</option>
-              <option value="This week">This week</option>
-              <option value="Just exploring">Just exploring options</option>
-            </select>
+            <label for="{{ form.urgency.id_for_label }}">How urgent?</label>
+            {{ form.urgency }}
+            {{ form.urgency.errors }}
           </div>
         </div>
 
         <div class="field-row">
           <div class="field">
-            <label for="name">Your name</label>
-            <input type="text" id="name" name="name" placeholder="Full name" required>
+            <label for="{{ form.name.id_for_label }}">Your name</label>
+            {{ form.name }}
+            {{ form.name.errors }}
           </div>
           <div class="field">
-            <label for="phone">Phone number</label>
-            <input type="tel" id="phone" name="phone" placeholder="e.g. 0712 345 678" required>
+            <label for="{{ form.phone.id_for_label }}">Phone number</label>
+            {{ form.phone }}
+            {{ form.phone.errors }}
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg btn-block">Send to Fundi via WhatsApp</button>
-        <p class="form-note">This opens WhatsApp with your problem pre-filled so you can send it straight to us.</p>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Send my request</button>
+        <p class="form-note">We'll save your request and give you a WhatsApp link to send it straight to us.</p>
       </form>
     </div>
   </section>
@@ -172,19 +136,8 @@
     <div class="wrap pros-inner">
       <h2>Are you a plumber, electrician, or technician?</h2>
       <p>Join the Fundi network and get sent jobs that match what you actually do — no bidding wars, no cold leads.</p>
-      <a href="#request" class="btn btn-ghost">Apply to join</a>
+      <a href="{% url 'providers:register' %}" class="btn btn-ghost">Apply to join</a>
     </div>
   </section>
 
-</main>
-
-<footer class="site-footer">
-  <div class="wrap footer-inner">
-    <p>Fundi &middot; Nairobi, Kenya</p>
-    <p class="footer-muted">Problem in, right person out.</p>
-  </div>
-</footer>
-
-<script src="assets/js/main.js"></script>
-</body>
-</html>
+{% endblock %}

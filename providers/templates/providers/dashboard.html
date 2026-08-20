@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — Fundi{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+  <div class="wrap">
+    <h2>Welcome, {{ provider.business_name }}</h2>
+
+    {% if not provider.is_approved %}
+      <p class="status-pill status-pending">Pending approval — we're reviewing your profile. You'll see matching jobs here once approved.</p>
+    {% else %}
+      <p class="status-pill status-approved">Approved — {{ provider.category }} in {{ provider.area }}</p>
+
+      <h3>Open jobs in your category</h3>
+      {% if open_jobs %}
+        <div class="job-list">
+          {% for job in open_jobs %}
+            <div class="job-card">
+              <div>
+                <p class="job-card-title">{{ job.category }} &middot; {{ job.location }}</p>
+                <p class="job-card-desc">{{ job.description }}</p>
+                <p class="job-card-meta">Urgency: {{ job.get_urgency_display }} &middot; Posted {{ job.created_at|timesince }} ago</p>
+              </div>
+              <form method="post" action="{% url 'providers:claim_job' job.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm">Claim job</button>
+              </form>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No open jobs in your category right now — check back soon.</p>
+      {% endif %}
+
+      <h3>Jobs you've claimed</h3>
+      {% if claimed_jobs %}
+        <div class="job-list">
+          {% for job in claimed_jobs %}
+            <div class="job-card">
+              <div>
+                <p class="job-card-title">{{ job.category }} &middot; {{ job.location }}</p>
+                <p class="job-card-desc">{{ job.description }}</p>
+                <p class="job-card-meta">Customer: {{ job.name }} &middot; {{ job.phone }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>You haven't claimed any jobs yet.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

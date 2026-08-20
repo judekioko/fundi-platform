@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "fundi-static",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8934"],
-      "port": 8934
+      "name": "fundi-django",
+      "runtimeExecutable": "venv/Scripts/python.exe",
+      "runtimeArgs": ["manage.py", "runserver", "8935"],
+      "port": 8935
     }
   ]
 }

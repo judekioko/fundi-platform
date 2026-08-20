@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Request received — Fundi{% endblock %}
+
+{% block content %}
+<section class="request thanks">
+  <div class="wrap thanks-inner">
+    <h2>Got it, {{ job.name }}.</h2>
+    <p>Your {{ job.category|lower }} request in {{ job.location }} has been saved. A real person reviews every request and matches you with the right Fundi.</p>
+    <p>Want it seen faster? Send it to us directly on WhatsApp:</p>
+    <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-primary btn-lg">Send via WhatsApp</a>
+    <p class="form-note"><a href="{% url 'core:landing' %}">&larr; Back to Fundi</a></p>
+  </div>
+</section>
+{% endblock %}
