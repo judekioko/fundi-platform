@@ -1,6 +1,4 @@
-// TODO: replace with the real Fundi WhatsApp Business number, international format, no leading +
-// e.g. Kenya number 0712 345 678 -> "254712345678"
-const WHATSAPP_NUMBER = "254700000000";
+const WHATSAPP_NUMBER = "254113781366";
 
 const form = document.getElementById("request-form");
 
